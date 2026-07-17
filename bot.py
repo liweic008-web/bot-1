@@ -5,7 +5,7 @@ from datetime import datetime
 import pytz
 
 # 從 GitHub Secrets 中安全讀取變數
-TOKEN = os.getenv('MTUyNzY3OTE0MDI2MDc0MTM3MA.GaoP9J.Vu9gtrzprfTaMkKj3PZUvy6tv_PcJE48RnI0Mo')
+TOKEN = os.getenv('DISCORD_TOKEN')
 CHANNEL_ID = 1505906187495800942
 
 def get_weekly_status(day_index):
