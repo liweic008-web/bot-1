@@ -1,37 +1,42 @@
 name: Daily Discord Status Updater
 
-# 設定何時觸發此任務
 on:
   schedule:
-    # 這裡使用 Cron 定時（注意：GitHub 的 Cron 是 UTC 時間）
-    # 台灣時間 (UTC+8) 早上 08:00，等於 UTC 時間的 00:00
     - cron: '0 0 * * *'
-  workflow_dispatch: # 這行可以讓你手動按按鈕測試發送
+  workflow_dispatch: 
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. 複製程式碼到虛擬機上
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # 2. 設定 Python 環境
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    # 3. 安裝需要的套件
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # 4. 執行 Python 腳本，並帶入藏好的 Secrets
+    # 🔍 新增這一步：幫我們檢查保險箱到底有沒有東西！
+    - name: Check Environment Variables
+      env:
+        CHECK_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+      run: |
+        if [ -z "$CHECK_TOKEN" ]; then
+          echo "❌ 警告：GitHub Secrets 裡的 DISCORD_TOKEN 是空的！請檢查設定。"
+          exit 1
+        else
+          echo "✅ 成功：GitHub Secrets 有成功讀取到資料！"
+        fi
+
+    # 4. 執行 Python 腳本
     - name: Run bot script
       env:
         DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
       run: python bot.py
