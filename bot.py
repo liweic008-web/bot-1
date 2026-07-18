@@ -6,7 +6,7 @@ import pytz
 
 # 從 GitHub Secrets 中安全讀取變數
 TOKEN = os.getenv('DISCORD_TOKEN')
-CHANNEL_ID = 1505906187495800942
+CHANNEL_ID = 1527992244043255899
 
 def get_weekly_status(day_index):
     days_text = [
