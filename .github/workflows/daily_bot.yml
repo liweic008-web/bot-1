@@ -3,7 +3,7 @@ name: Daily Discord Status Updater
 on:
   schedule:
     # 台灣時間每天早上 08:42 執行（此時英國為 00:42，完美跨日不塞車）
-    - cron: '42 0 * * *'
+    - cron: '42 15 * * *'
   workflow_dispatch: 
 
 jobs:
